@@ -13,24 +13,22 @@ import javafx.scene.paint.Color;
 
 public class SteganographyUtil {
 
-    public static Image embedMessage(File inputImageFile, String message) throws IOException {
+    public static Image embedMessage(File inputImageFile, String hashedPassword, String secretMessage) throws IOException {
         BufferedImage inputImage = ImageIO.read(inputImageFile);
         int width = inputImage.getWidth();
         int height = inputImage.getHeight();
 
-        // Convert message to binary
-        byte[] markerAndMessageBytes;
-
-        byte[] markerByte = new byte[] { 0x53 }; // ASCII 'S'
-        byte[] messageBytes = message.getBytes();
-
-        markerAndMessageBytes = new byte[markerByte.length + messageBytes.length + 1]; // +1 for null terminator
-        System.arraycopy(markerByte, 0, markerAndMessageBytes, 0, 1);
-        System.arraycopy(messageBytes, 0, markerAndMessageBytes, 1, messageBytes.length);
-        markerAndMessageBytes[markerAndMessageBytes.length - 1] = 0x00; // Null terminator
+        String data = hashedPassword + "|" + secretMessage;
+        byte[] fullMessageBytes = data.getBytes();
+        
+        // Prefix with marker 'S' and append null terminator
+        byte[] fullBytes = new byte[fullMessageBytes.length + 2];
+        fullBytes[0] = 0x53; // ASCII 'S' marker
+        System.arraycopy(fullMessageBytes, 0, fullBytes, 1, fullMessageBytes.length);
+        fullBytes[fullBytes.length - 1] = 0x00;
 
         StringBuilder binaryMessage = new StringBuilder();
-        for (byte b : markerAndMessageBytes) {
+        for (byte b : fullBytes) {
             binaryMessage.append(String.format("%8s", Integer.toBinaryString(b & 0xFF)).replace(' ', '0'));
         }
 
@@ -59,7 +57,6 @@ public class SteganographyUtil {
             }
         }
 
-        // Convert to JavaFX Image
         WritableImage fxImage = new WritableImage(width, height);
         PixelWriter writer = fxImage.getPixelWriter();
         for (int y = 0; y < outputImage.getHeight(); y++) {
@@ -75,5 +72,36 @@ public class SteganographyUtil {
         }
 
         return fxImage;
+    }
+
+    public static String extractMessage(File imageFile) throws IOException {
+        BufferedImage image = ImageIO.read(imageFile);
+        if (image == null) return null;
+
+        StringBuilder binary = new StringBuilder();
+        
+        outerLoop:
+        for (int y = 0; y < image.getHeight(); y++) {
+            for (int x = 0; x < image.getWidth(); x++) {
+                int rgb = image.getRGB(x, y);
+                int b = rgb & 0xFF;
+                binary.append(b & 1);
+
+                if (binary.length() % 8 == 0) {
+                    String byteStr = binary.substring(binary.length() - 8);
+                    if (Integer.parseInt(byteStr, 2) == 0x00) break outerLoop;
+                }
+            }
+        }
+
+        StringBuilder message = new StringBuilder();
+        for (int i = 0; i < binary.length(); i += 8) {
+            String byteStr = binary.substring(i, Math.min(i + 8, binary.length()));
+            int charCode = Integer.parseInt(byteStr, 2);
+            if (charCode == 0x00) break;
+            message.append((char) charCode);
+        }
+
+        return message.toString(); // should be: S<hash>|<secret>
     }
 }

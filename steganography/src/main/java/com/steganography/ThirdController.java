@@ -58,7 +58,7 @@ public class ThirdController {
         }
 
         try {
-            Image embeddedImage = SteganographyUtil.embedMessage(imageFile, message);
+            Image embeddedImage = SteganographyUtil.embedMessage(imageFile, getHashedPassword(), message);
             FourthController.setFinalImage(embeddedImage);
             System.out.println("Message embedded. Proceeding to PaneFour...");
             App.setRoot("PaneFour");
