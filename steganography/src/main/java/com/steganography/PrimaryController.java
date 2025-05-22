@@ -149,6 +149,10 @@ public class PrimaryController {
         return selectedEmbedImageFile;
     }
 
+    public static File getSelectedExtractImageFile() {
+        return selectedExtractImageFile;
+    }
+
     // Legacy navigation (optional cleanup)
     @FXML
     private void switchToSecondary() throws IOException {

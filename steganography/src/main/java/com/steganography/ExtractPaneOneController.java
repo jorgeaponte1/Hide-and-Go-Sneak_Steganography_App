@@ -1,5 +1,6 @@
 package com.steganography;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -52,8 +53,39 @@ public class ExtractPaneOneController {
             return;
         }
 
-        System.out.println("Password accepted. Proceeding to extraction pane...");
-        //App.setRoot(""); // This will be the next pane we build
+        File file = PrimaryController.getSelectedExtractImageFile();
+        if (file == null) {
+            System.out.println("No image selected for extraction.");
+            return;
+        }
+
+        try {
+            String extracted = SteganographyUtil.extractMessage(file);
+            if (extracted == null || !extracted.startsWith("S")) {
+                System.out.println("Invalid or corrupted image.");
+                return;
+            }
+
+            String[] parts = extracted.substring(1).split("\\|", 2);
+            if (parts.length < 2) {
+                System.out.println("Corrupted embedded data.");
+                return;
+            }
+
+            String embeddedHash = parts[0];
+            String message = parts[1];
+
+            if (embeddedHash.equals(hashedPassword)) {
+                ExtractPaneTwoController.setExtractedMessage(message);
+                System.out.println("Password correct. Proceeding...");
+                App.setRoot("PaneExtractTwo");
+            } else {
+                System.out.println("Incorrect password.");
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error extracting message: " + e.getMessage());
+        }
     }
 
     private String hashPassword(String password) throws NoSuchAlgorithmException {
