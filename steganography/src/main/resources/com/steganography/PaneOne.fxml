@@ -68,7 +68,7 @@
                               <RowConstraints maxHeight="328.0" minHeight="10.0" prefHeight="132.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <TextField prefHeight="30.0" prefWidth="1698.0" GridPane.rowIndex="1">
+                              <TextField fx:id="extractImagePathField" prefHeight="30.0" prefWidth="1698.0" GridPane.rowIndex="1">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -92,7 +92,7 @@
                                     <Insets bottom="50.0" left="60.0" right="50.0" top="50.0" />
                                  </GridPane.margin>
                               </Text>
-                              <ImageView fitHeight="297.0" fitWidth="326.0" pickOnBounds="true" preserveRatio="true" smooth="false" GridPane.rowIndex="2">
+                              <ImageView fx:id="extractImageView" fitHeight="297.0" fitWidth="326.0" pickOnBounds="true" preserveRatio="true" smooth="false" GridPane.rowIndex="2">
                                  <cursor>
                                     <Cursor fx:constant="CLOSED_HAND" />
                                  </cursor>

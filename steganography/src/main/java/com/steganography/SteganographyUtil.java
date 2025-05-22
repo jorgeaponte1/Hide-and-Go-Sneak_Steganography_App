@@ -19,12 +19,20 @@ public class SteganographyUtil {
         int height = inputImage.getHeight();
 
         // Convert message to binary
+        byte[] markerAndMessageBytes;
+
+        byte[] markerByte = new byte[] { 0x53 }; // ASCII 'S'
         byte[] messageBytes = message.getBytes();
+
+        markerAndMessageBytes = new byte[markerByte.length + messageBytes.length + 1]; // +1 for null terminator
+        System.arraycopy(markerByte, 0, markerAndMessageBytes, 0, 1);
+        System.arraycopy(messageBytes, 0, markerAndMessageBytes, 1, messageBytes.length);
+        markerAndMessageBytes[markerAndMessageBytes.length - 1] = 0x00; // Null terminator
+
         StringBuilder binaryMessage = new StringBuilder();
-        for (byte b : messageBytes) {
+        for (byte b : markerAndMessageBytes) {
             binaryMessage.append(String.format("%8s", Integer.toBinaryString(b & 0xFF)).replace(' ', '0'));
         }
-        binaryMessage.append("00000000"); // Null terminator
 
         int msgIndex = 0;
         BufferedImage outputImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
