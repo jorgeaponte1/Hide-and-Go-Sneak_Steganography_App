@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright (c) 2015, 2019, Gluon and/or its affiliates.
+  All rights reserved. Use is subject to license terms.
+
+  This file is available and licensed under the following license:
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions
+  are met:
+
+  - Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+  - Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in
+    the documentation and/or other materials provided with the distribution.
+  - Neither the name of Oracle Corporation nor the names of its
+    contributors may be used to endorse or promote products derived
+    from this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.steganography.PrimaryController">
+   <children>
+      <Accordion>
+         <panes>
+            <TitledPane alignment="TOP_CENTER" collapsible="false" contentDisplay="TOP" prefHeight="26.0" prefWidth="1920.0" text="Steganography App">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </TitledPane>
+         </panes>
+      </Accordion>
+      <TabPane layoutY="77.0" maxHeight="1.7976931348623157E308" prefHeight="1004.0" prefWidth="1920.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="          Embed          ">
+               <content>
+                  <GridPane prefHeight="330.0" prefWidth="796.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="1920.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="297.5" minWidth="0.0" prefWidth="0.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints maxHeight="507.0" minHeight="10.0" prefHeight="346.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="674.0" minHeight="0.0" prefHeight="79.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="684.0" minHeight="10.0" prefHeight="427.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="743.0" minHeight="10.0" prefHeight="129.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Button fx:id="selectEmbedImageButton" mnemonicParsing="false" text="Select Image" GridPane.rowIndex="1" onAction="#onSelectEmbedImage">
+                           <GridPane.margin>
+                              <Insets left="50.0" />
+                           </GridPane.margin>
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Button>
+                        <ImageView fitHeight="398.0" fitWidth="625.0" pickOnBounds="true" preserveRatio="true" smooth="false" GridPane.rowIndex="2">
+                           <GridPane.margin>
+                              <Insets left="700.0" />
+                           </GridPane.margin>
+                           <cursor>
+                              <Cursor fx:constant="CLOSED_HAND" />
+                           </cursor>
+                        </ImageView>
+                        <TextArea prefHeight="349.0" prefWidth="1920.0" text="Step 1: &#10;Select an Image!&#10;The image you select will be used to hide your secret messages" wrapText="true">
+                           <padding>
+                              <Insets bottom="100.0" left="500.0" right="500.0" top="100.0" />
+                           </padding>
+                           <font>
+                              <Font size="28.0" />
+                           </font>
+                        </TextArea>
+                        <TextField prefHeight="30.0" prefWidth="1698.0" GridPane.rowIndex="1">
+                           <GridPane.margin>
+                              <Insets left="350.0" right="50.0" />
+                           </GridPane.margin>
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </TextField>
+                        <Button fx:id="embedNextButton" mnemonicParsing="false" prefHeight="72.0" prefWidth="154.0" text="Next" GridPane.rowIndex="3" onAction="#onEmbedNext">
+                           <GridPane.margin>
+                              <Insets left="1500.0" />
+                           </GridPane.margin>
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </GridPane>
+               </content>
+            </Tab>
+          <Tab text="          Extract          ">
+               <content>
+                  <GridPane>
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1920.0" minWidth="10.0" prefWidth="1920.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="955.0" minWidth="0.0" prefWidth="0.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints maxHeight="344.0" minHeight="10.0" prefHeight="344.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="428.0" minHeight="10.0" prefHeight="82.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="417.0" minHeight="10.0" prefHeight="417.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="328.0" minHeight="10.0" prefHeight="132.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <TextField prefHeight="30.0" prefWidth="1698.0" GridPane.rowIndex="1">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets left="350.0" right="50.0" />
+                           </GridPane.margin>
+                        </TextField>
+                        <TextArea prefHeight="320.0" prefWidth="1920.0" text="Step 1:&#10;Select the image in which you want to extract a hidden message from.&#10;">
+                           <font>
+                              <Font size="28.0" />
+                           </font>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <padding>
+                              <Insets bottom="100.0" left="500.0" right="500.0" top="100.0" />
+                           </padding>
+                        </TextArea>
+                        <Button fx:id="selectExtractImageButton" mnemonicParsing="false" prefHeight="52.0" prefWidth="170.0" text="Select Image" GridPane.rowIndex="1" onAction="#onSelectExtractImage">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets left="50.0" />
+                           </GridPane.margin>
+                        </Button>
+                        <ImageView fitHeight="371.0" fitWidth="551.0" pickOnBounds="true" preserveRatio="true" smooth="false" GridPane.rowIndex="2">
+                           <cursor>
+                              <Cursor fx:constant="CLOSED_HAND" />
+                           </cursor>
+                           <GridPane.margin>
+                              <Insets left="700.0" />
+                           </GridPane.margin>
+                        </ImageView>
+                        <Button fx:id="extractNextButton" mnemonicParsing="false" prefHeight="72.0" prefWidth="154.0" text="Next" GridPane.rowIndex="3" onAction="#onExtractNext">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets left="1500.0" />
+                           </GridPane.margin>
+                        </Button>
+                     </children>
+                  </GridPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>
