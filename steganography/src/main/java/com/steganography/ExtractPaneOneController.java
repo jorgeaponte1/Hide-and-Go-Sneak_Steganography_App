@@ -25,7 +25,6 @@ public class ExtractPaneOneController {
 
     @FXML
     private void initialize() {
-        // Optionally disable next until password is set
         nextButton.setDisable(true);
     }
 

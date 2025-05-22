@@ -86,20 +86,4 @@ public class FourthController {
     public static void setFinalImage(Image image) {
         finalEmbeddedImage = image;
     }
-
-    // Legacy navigation
-    @FXML
-    private void switchToPrimary() throws IOException {
-        App.setRoot("primary");
-    }
-
-    @FXML
-    private void switchToSecondary() throws IOException {
-        App.setRoot("secondary");
-    }
-
-    @FXML
-    private void switchToThird() throws IOException {
-        App.setRoot("third");
-    }
 }
