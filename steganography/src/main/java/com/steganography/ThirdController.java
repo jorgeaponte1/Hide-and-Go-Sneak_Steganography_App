@@ -8,13 +8,25 @@ import java.security.NoSuchAlgorithmException;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 
 public class ThirdController {
 
     @FXML
     private PasswordField passwordField;
+
+    @FXML
+    private TextField visiblePasswordField;
+
+    @FXML
+    private CheckBox showPasswordCheckBox;
+
+    @FXML
+    private Label passwordMatchLabel;
 
     @FXML
     private Button saveButton;
@@ -25,8 +37,26 @@ public class ThirdController {
     private String hashedPassword = "";
 
     @FXML
+    private void initialize() {
+        visiblePasswordField.setManaged(false);
+        visiblePasswordField.setVisible(false);
+
+        passwordField.textProperty().bindBidirectional(visiblePasswordField.textProperty());
+
+        showPasswordCheckBox.setOnAction(e -> togglePasswordVisibility());
+    }
+
+    private void togglePasswordVisibility() {
+        boolean show = showPasswordCheckBox.isSelected();
+        passwordField.setVisible(!show);
+        passwordField.setManaged(!show);
+        visiblePasswordField.setVisible(show);
+        visiblePasswordField.setManaged(show);
+    }
+
+    @FXML
     private void onSaveClicked() {
-        String password = passwordField.getText().trim();
+        String password = getPassword().trim();
 
         if (password.isEmpty()) {
             System.out.println("Password cannot be empty.");
@@ -49,7 +79,7 @@ public class ThirdController {
         }
 
         String message = SecondaryController.getSecretMessage();
-        File imageFile = PrimaryController.getSelectedEmbedImageFile(); 
+        File imageFile = PrimaryController.getSelectedEmbedImageFile();
 
         if (message == null || message.isEmpty() || imageFile == null) {
             System.out.println("Missing image or message. Cannot embed.");
@@ -66,12 +96,14 @@ public class ThirdController {
         }
     }
 
+    private String getPassword() {
+        return showPasswordCheckBox.isSelected() ? visiblePasswordField.getText() : passwordField.getText();
+    }
 
     private String hashPassword(String password) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         byte[] encodedHash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
 
-        // Convert byte array to hex string
         StringBuilder hexString = new StringBuilder();
         for (byte b : encodedHash) {
             String hex = Integer.toHexString(0xff & b);

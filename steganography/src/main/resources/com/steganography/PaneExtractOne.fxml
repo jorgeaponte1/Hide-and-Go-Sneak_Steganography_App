@@ -10,6 +10,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
 
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.steganography.ExtractPaneOneController">
@@ -35,9 +38,6 @@
                      </GridPane.margin>
                   </Text>
                   <PasswordField fx:id="passwordField" prefHeight="51.0" prefWidth="1226.0" promptText="Password: " GridPane.rowIndex="1">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -45,6 +45,22 @@
                         <Insets bottom="50.0" left="200.0" right="200.0" />
                      </GridPane.margin>
                   </PasswordField>
+                  <TextField fx:id="visiblePasswordField" prefHeight="51.0" prefWidth="1226.0" promptText="Password: " GridPane.rowIndex="1" visible="false" managed="false">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets bottom="50.0" left="200.0" right="200.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <CheckBox fx:id="showPasswordCheckBox" text="Show Password" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets left="200.0" top="100.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </CheckBox>
                   <Button fx:id="savePasswordButton" text="Enter" onAction="#onSavePasswordClicked" mnemonicParsing="false" prefHeight="44.0" prefWidth="89.0" GridPane.rowIndex="1">
                      <font>
                         <Font size="18.0" />

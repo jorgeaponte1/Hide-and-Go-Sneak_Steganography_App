@@ -8,12 +8,20 @@ import java.security.NoSuchAlgorithmException;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 
 public class ExtractPaneOneController {
 
     @FXML
     private PasswordField passwordField;
+
+    @FXML
+    private TextField visiblePasswordField;
+
+    @FXML
+    private CheckBox showPasswordCheckBox;
 
     @FXML
     private Button savePasswordButton;
@@ -26,11 +34,25 @@ public class ExtractPaneOneController {
     @FXML
     private void initialize() {
         nextButton.setDisable(true);
+
+        visiblePasswordField.setManaged(false);
+        visiblePasswordField.setVisible(false);
+        passwordField.textProperty().bindBidirectional(visiblePasswordField.textProperty());
+
+        showPasswordCheckBox.setOnAction(e -> togglePasswordVisibility());
+    }
+
+    private void togglePasswordVisibility() {
+        boolean show = showPasswordCheckBox.isSelected();
+        passwordField.setVisible(!show);
+        passwordField.setManaged(!show);
+        visiblePasswordField.setVisible(show);
+        visiblePasswordField.setManaged(show);
     }
 
     @FXML
     private void onSavePasswordClicked() {
-        String password = passwordField.getText().trim();
+        String password = getPassword().trim();
         if (password.isEmpty()) {
             System.out.println("Password field is empty.");
             return;
@@ -85,6 +107,10 @@ public class ExtractPaneOneController {
         } catch (IOException e) {
             System.out.println("Error extracting message: " + e.getMessage());
         }
+    }
+
+    private String getPassword() {
+        return showPasswordCheckBox.isSelected() ? visiblePasswordField.getText() : passwordField.getText();
     }
 
     private String hashPassword(String password) throws NoSuchAlgorithmException {
