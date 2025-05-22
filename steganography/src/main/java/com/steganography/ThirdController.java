@@ -27,7 +27,7 @@ public class ThirdController {
     @FXML
     private void onNextClicked() throws IOException{
         System.out.println("Next button clicked - proceed to the next step.");
-        App.setRoot("PaneOne");
+        App.setRoot("PaneFour");
     }
 
     // OLD BUTTONS

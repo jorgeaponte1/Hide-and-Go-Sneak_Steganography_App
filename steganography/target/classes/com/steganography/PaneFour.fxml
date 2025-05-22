@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.steganography.FourthController">
+   <children>
+      <TitledPane alignment="TOP_CENTER" animated="false" collapsible="false" prefHeight="801.0" prefWidth="1281.0" text="Steganography App">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font>
+         <effect>
+            <Blend mode="LIGHTEN" />
+         </effect>
+         <content>
+            <GridPane prefHeight="727.0" prefWidth="1280.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1280.0" minWidth="10.0" prefWidth="1280.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="215.0" minHeight="10.0" prefHeight="187.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="415.0" minHeight="10.0" prefHeight="326.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="202.0" minHeight="10.0" prefHeight="152.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Step 4: Results!&#10;Below is your image with your hidden message." textAlignment="CENTER" wrappingWidth="763.1152191162109">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="225.0" />
+                     </GridPane.margin>
+                  </Text>
+                  <ImageView fitHeight="325.0" fitWidth="467.0" pickOnBounds="true" preserveRatio="true" smooth="false" GridPane.rowIndex="1">
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
+                     <GridPane.margin>
+                        <Insets left="375.0" />
+                     </GridPane.margin>
+                  </ImageView>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Right click and scroll to 'save image' to save a copy of this image with your message." textAlignment="CENTER" wrappingWidth="705.1152191162109" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="257.0" />
+                     </GridPane.margin>
+                  </Text>
+                  <Button fx:id="returnToStartButton" mnemonicParsing="false" prefHeight="72.0" prefWidth="192.0" text="Return to Start" onAction="#onReturnToStartClicked" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets left="1000.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Button>
+               </children>
+            </GridPane>
+         </content>
+      </TitledPane>
+   </children>
+</AnchorPane>
