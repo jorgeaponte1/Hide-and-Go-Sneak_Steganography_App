@@ -1,5 +1,6 @@
 package com.steganography;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -8,6 +9,7 @@ import java.security.NoSuchAlgorithmException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
+import javafx.scene.image.Image;
 
 public class ThirdController {
 
@@ -46,9 +48,25 @@ public class ThirdController {
             return;
         }
 
-        System.out.println("Next button clicked - password confirmed - moving to PaneFour.");
-        App.setRoot("PaneFour");
+        // TEMPORARY: Simulate message and image
+        String message = SecondaryController.getSecretMessage(); // Assume message is public static
+        File imageFile = PrimaryController.getSelectedEmbedImageFile(); // Assume public static
+
+        if (message == null || message.isEmpty() || imageFile == null) {
+            System.out.println("Missing image or message. Cannot embed.");
+            return;
+        }
+
+        try {
+            Image embeddedImage = SteganographyUtil.embedMessage(imageFile, message);
+            FourthController.setFinalImage(embeddedImage);
+            System.out.println("Message embedded. Proceeding to PaneFour...");
+            App.setRoot("PaneFour");
+        } catch (IOException e) {
+            System.out.println("Error embedding message: " + e.getMessage());
+        }
     }
+
 
     private String hashPassword(String password) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");

@@ -17,7 +17,7 @@ public class SecondaryController {
     @FXML
     private TextArea messageTextArea;
 
-    private String secretMessage = "";
+    private static String secretMessage = "";
 
     @FXML
     private void onSaveClicked() {
@@ -56,7 +56,7 @@ public class SecondaryController {
         App.setRoot("fourth");
     }
 
-    public String getSecretMessage() {
+    public static String getSecretMessage() {
         return secretMessage;
     }
 }
