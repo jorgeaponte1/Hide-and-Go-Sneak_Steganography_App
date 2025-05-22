@@ -26,7 +26,10 @@
                 <RowConstraints maxHeight="127.0" minHeight="10.0" prefHeight="127.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label fx:id="messageLabel" prefHeight="269.0" prefWidth="1132.0" GridPane.rowIndex="1">
+                  <Label fx:id="messageLabel" prefHeight="269.0" prefWidth="1132.0" wrapText="true" GridPane.rowIndex="1" textAlignment="CENTER" alignment="CENTER">
+                     <font>
+                           <Font name="Arial" size="24.0"/>
+                     </font>
                      <GridPane.margin>
                         <Insets bottom="100.0" left="50.0" right="50.0" top="50.0" />
                      </GridPane.margin>
