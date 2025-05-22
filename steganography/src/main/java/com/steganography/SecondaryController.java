@@ -16,7 +16,7 @@ public class SecondaryController {
     @FXML
     private void onNextClicked() throws IOException {
         System.out.println("Next button clicked - proceed to next step.");
-        App.setRoot("PaneOne");
+        App.setRoot("PaneThree");
     }
 
     @FXML
