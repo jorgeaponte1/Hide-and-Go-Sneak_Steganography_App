@@ -31,7 +31,7 @@ public class PrimaryController {
     @FXML
     private TextField embedImagePathField;
 
-    private File selectedEmbedImageFile;
+    private static File selectedEmbedImageFile;
 
     @FXML
     private void onSelectEmbedImage() {
@@ -73,6 +73,10 @@ public class PrimaryController {
     @FXML
     private void onExtractNext() {
         System.out.println("Extract: Next clicked");
+    }
+
+    public static File getSelectedEmbedImageFile() {
+        return selectedEmbedImageFile;
     }
 
     // Legacy navigation (optional cleanup)
