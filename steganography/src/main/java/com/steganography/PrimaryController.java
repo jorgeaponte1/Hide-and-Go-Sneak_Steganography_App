@@ -71,8 +71,9 @@ public class PrimaryController {
     }
 
     @FXML
-    private void onExtractNext() {
+    private void onExtractNext() throws IOException {
         System.out.println("Extract: Next clicked");
+        App.setRoot("PaneExtractOne");
     }
 
     public static File getSelectedEmbedImageFile() {
