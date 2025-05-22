@@ -5,6 +5,7 @@ import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.text.Text;
 
 public class ExtractPaneTwoController {
 
@@ -14,6 +15,9 @@ public class ExtractPaneTwoController {
     @FXML
     private Button returnButton;
 
+    @FXML
+    private Text messageText;
+
     private static String extractedMessage = "";
 
     public static void setExtractedMessage(String message) {
@@ -22,7 +26,7 @@ public class ExtractPaneTwoController {
 
     @FXML
     private void initialize() {
-        messageLabel.setText(extractedMessage != null ? extractedMessage : "No message extracted.");
+        messageText.setText(extractedMessage != null ? extractedMessage : "No message extracted.");
     }
 
     @FXML

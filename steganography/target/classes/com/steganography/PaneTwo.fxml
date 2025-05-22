@@ -46,7 +46,7 @@
                   <Insets bottom="50.0" left="250.0" top="50.0" />
                </GridPane.margin>
             </Text>
-            <TextArea fx:id="messageTextArea" prefHeight="444.0" prefWidth="1159.0" promptText="Type your message here:" GridPane.rowIndex="1">
+            <TextArea fx:id="messageTextArea" prefHeight="444.0" prefWidth="1159.0" promptText="Type your message here:" wrapText="true" GridPane.rowIndex="1">
                <font>
                   <Font size="18.0" />
                </font>
