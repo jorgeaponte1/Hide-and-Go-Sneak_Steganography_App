@@ -67,7 +67,7 @@ public class PrimaryController {
             System.out.println("Please select an image before proceeding.");
             return;
         }
-        // In the future, pass this file to PaneTwo
+
         System.out.println("Embed: Next clicked, moving to PaneTwo...");
         App.setRoot("PaneTwo");
     }
@@ -91,7 +91,6 @@ public class PrimaryController {
                 return;
             }
 
-            // TEMP: Replace this with actual marker logic
             boolean hasMessage = checkImageHasEmbeddedData(file);
 
             if (hasMessage) {
@@ -111,7 +110,12 @@ public class PrimaryController {
 
     @FXML
     private void onExtractNext() throws IOException {
-        System.out.println("Extract: Next clicked");
+        if (selectedExtractImageFile == null) {
+            System.out.println("Please select an image before proceeding.");
+            return;
+        }
+
+        System.out.println("Extract: Next clicked, moving to PaneTwo...");
         App.setRoot("PaneExtractOne");
     }
 
@@ -127,7 +131,6 @@ public class PrimaryController {
             int markerBits = 0;
             int bitIndex = 0;
 
-            //outerLoop:
             for (int y = 0; y < height && bitIndex < 8; y++) {
                 for (int x = 0; x < width && bitIndex < 8; x++) {
                     int rgb = image.getRGB(x, y);
