@@ -48,9 +48,8 @@ public class ThirdController {
             return;
         }
 
-        // TEMPORARY: Simulate message and image
-        String message = SecondaryController.getSecretMessage(); // Assume message is public static
-        File imageFile = PrimaryController.getSelectedEmbedImageFile(); // Assume public static
+        String message = SecondaryController.getSecretMessage();
+        File imageFile = PrimaryController.getSelectedEmbedImageFile(); 
 
         if (message == null || message.isEmpty() || imageFile == null) {
             System.out.println("Missing image or message. Cannot embed.");
@@ -83,24 +82,7 @@ public class ThirdController {
         return hexString.toString();
     }
 
-    // For future pane communication
-    public String getHashedPassword() {
+    private String getHashedPassword() {
         return hashedPassword;
-    }
-
-    // OLD NAVIGATION BUTTONS
-    @FXML
-    private void switchToPrimary() throws IOException {
-        App.setRoot("primary");
-    }
-
-    @FXML
-    private void switchToSecondary() throws IOException {
-        App.setRoot("secondary");
-    }
-
-    @FXML
-    private void switchToFourth() throws IOException {
-        App.setRoot("fourth");
     }
 }
