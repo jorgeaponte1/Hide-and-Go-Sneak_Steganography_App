@@ -25,8 +25,9 @@ public class PrimaryController {
     }
 
     @FXML
-    private void onEmbedNext() {
+    private void onEmbedNext() throws IOException {
         System.out.println("Embed: Next clicked");
+        App.setRoot("PaneTwo");
     }
 
     @FXML
