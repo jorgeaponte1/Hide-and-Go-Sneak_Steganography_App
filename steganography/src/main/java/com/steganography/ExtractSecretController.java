@@ -12,7 +12,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-public class ExtractPaneOneController {
+public class ExtractSecretController {
 
     @FXML
     private PasswordField passwordField;
@@ -97,9 +97,9 @@ public class ExtractPaneOneController {
             String message = parts[1];
 
             if (embeddedHash.equals(hashedPassword)) {
-                ExtractPaneTwoController.setExtractedMessage(message);
+                ExtractMessageController.setExtractedMessage(message);
                 System.out.println("Password correct. Proceeding...");
-                App.setRoot("PaneExtractTwo");
+                App.setRoot("PaneExtractMessage");
             } else {
                 System.out.println("Incorrect password.");
             }

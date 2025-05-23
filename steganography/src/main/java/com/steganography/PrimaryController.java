@@ -115,8 +115,8 @@ public class PrimaryController {
             return;
         }
 
-        System.out.println("Extract: Next clicked, moving to PaneTwo...");
-        App.setRoot("PaneExtractOne");
+        System.out.println("Extract: Next clicked, moving to Extract Secret...");
+        App.setRoot("PaneExtractSecret");
     }
 
     private boolean checkImageHasEmbeddedData(File file) {
