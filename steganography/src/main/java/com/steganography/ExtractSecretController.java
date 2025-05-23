@@ -74,7 +74,7 @@ public class ExtractSecretController {
             return;
         }
 
-        File file = PrimaryController.getSelectedExtractImageFile();
+        File file = MainStartController.getSelectedExtractImageFile();
         if (file == null) {
             System.out.println("No image selected for extraction.");
             return;

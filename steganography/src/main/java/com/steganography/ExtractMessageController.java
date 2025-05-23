@@ -31,6 +31,6 @@ public class ExtractMessageController {
 
     @FXML
     private void onReturnClicked() throws IOException {
-        App.setRoot("PaneOne");
+        App.setRoot("PaneMain");
     }
 }

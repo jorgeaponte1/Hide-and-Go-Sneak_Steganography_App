@@ -14,7 +14,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 
-public class ThirdController {
+public class EmbedSecretController {
 
     @FXML
     private PasswordField passwordField;
@@ -78,8 +78,8 @@ public class ThirdController {
             return;
         }
 
-        String message = SecondaryController.getSecretMessage();
-        File imageFile = PrimaryController.getSelectedEmbedImageFile();
+        String message = EmbedMessageController.getSecretMessage();
+        File imageFile = MainStartController.getSelectedEmbedImageFile();
 
         if (message == null || message.isEmpty() || imageFile == null) {
             System.out.println("Missing image or message. Cannot embed.");
@@ -88,9 +88,9 @@ public class ThirdController {
 
         try {
             Image embeddedImage = SteganographyUtil.embedMessage(imageFile, getHashedPassword(), message);
-            FourthController.setFinalImage(embeddedImage);
-            System.out.println("Message embedded. Proceeding to PaneFour...");
-            App.setRoot("PaneFour");
+            SaveEmbedImageController.setFinalImage(embeddedImage);
+            System.out.println("Message embedded. Proceeding to Save Embedded Image...");
+            App.setRoot("PaneSaveEmbedImage");
         } catch (IOException e) {
             System.out.println("Error embedding message: " + e.getMessage());
         }

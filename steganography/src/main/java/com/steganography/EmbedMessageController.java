@@ -6,7 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 
-public class SecondaryController {
+public class EmbedMessageController {
 
     @FXML
     private Button nextButton;
@@ -35,8 +35,8 @@ public class SecondaryController {
         if (secretMessage.isEmpty()) {
             System.out.println("No message saved. Please save a message before proceeding.");
         } else {
-            System.out.println("Proceeding to PaneThree...");
-            App.setRoot("PaneThree");
+            System.out.println("Proceeding to Embed Secret...");
+            App.setRoot("PaneEmbedSecret");
         }
     }
 

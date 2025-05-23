@@ -14,7 +14,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("PaneOne"), 1280, 800);
+        scene = new Scene(loadFXML("PaneMain"), 1280, 800);
         stage.setTitle("Steganography App");
         stage.setScene(scene);
         stage.show();
