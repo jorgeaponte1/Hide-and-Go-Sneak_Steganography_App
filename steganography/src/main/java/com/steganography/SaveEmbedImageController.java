@@ -16,7 +16,7 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseButton;
 import javafx.stage.FileChooser;
 
-public class FourthController {
+public class SaveEmbedImageController {
     private static Image finalEmbeddedImage;
 
     @FXML
@@ -80,7 +80,7 @@ public class FourthController {
     @FXML
     private void onReturnToStartClicked() throws IOException {
         System.out.println("Returning to start (primary view)...");
-        App.setRoot("PaneOne");
+        App.setRoot("PaneMain");
     }
 
     public static void setFinalImage(Image image) {

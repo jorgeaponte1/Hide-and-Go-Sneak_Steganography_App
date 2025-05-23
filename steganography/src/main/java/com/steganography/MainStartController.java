@@ -11,7 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class PrimaryController {
+public class MainStartController {
     @FXML
     private ImageView extractImageView;
 
@@ -68,8 +68,8 @@ public class PrimaryController {
             return;
         }
 
-        System.out.println("Embed: Next clicked, moving to PaneTwo...");
-        App.setRoot("PaneTwo");
+        System.out.println("Embed: Next clicked, moving to Embed Message...");
+        App.setRoot("PaneEmbedMessage");
     }
 
     @FXML
