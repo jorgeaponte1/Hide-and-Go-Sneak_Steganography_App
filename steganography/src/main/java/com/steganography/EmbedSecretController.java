@@ -68,7 +68,7 @@ public class EmbedSecretController {
         String password = getPassword().trim();
 
         if (password.isEmpty()) {
-            System.out.println("Password cannot be empty.");
+            showError("Password cannot be empty.");
             return;
         }
 
@@ -83,7 +83,7 @@ public class EmbedSecretController {
     @FXML
     private void onNextClicked() throws IOException {
         if (hashedPassword.isEmpty()) {
-            System.out.println("Please save a password before continuing.");
+            showError("Please save a password before continuing.");
             return;
         }
 

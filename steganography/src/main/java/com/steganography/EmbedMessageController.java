@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 
 public class EmbedMessageController {
@@ -17,6 +18,9 @@ public class EmbedMessageController {
     @FXML
     private TextArea messageTextArea;
 
+    @FXML
+    private Label messageErrorLabel;
+
     private static String secretMessage = "";
 
     @FXML
@@ -24,8 +28,10 @@ public class EmbedMessageController {
         secretMessage = messageTextArea.getText().trim();
 
         if (secretMessage.isEmpty()) {
-            System.out.println("Message is empty. Please write a message before saving.");
+            messageErrorLabel.setText("Message is empty. Please write a message before saving.");
+            messageErrorLabel.setVisible(true);
         } else {
+            messageErrorLabel.setVisible(false);
             System.out.println("Message saved: " + secretMessage);
         }
     }
@@ -33,8 +39,10 @@ public class EmbedMessageController {
     @FXML
     private void onNextClicked() throws IOException {
         if (secretMessage.isEmpty()) {
-            System.out.println("No message saved. Please save a message before proceeding.");
+            messageErrorLabel.setText("No message saved. Please save a message before proceeding.");
+            messageErrorLabel.setVisible(true);
         } else {
+            messageErrorLabel.setVisible(false);
             System.out.println("Proceeding to Embed Secret...");
             App.setRoot("PaneEmbedSecret");
         }
