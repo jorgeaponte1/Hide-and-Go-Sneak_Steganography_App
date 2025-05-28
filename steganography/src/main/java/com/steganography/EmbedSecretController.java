@@ -34,6 +34,9 @@ public class EmbedSecretController {
     @FXML
     private Button nextButton;
 
+    @FXML
+    private Label errorLabel;
+
     private String hashedPassword = "";
 
     @FXML
@@ -44,6 +47,12 @@ public class EmbedSecretController {
         passwordField.textProperty().bindBidirectional(visiblePasswordField.textProperty());
 
         showPasswordCheckBox.setOnAction(e -> togglePasswordVisibility());
+
+        // Initialize error label
+        if (errorLabel != null) {
+            errorLabel.setVisible(false);
+            errorLabel.setText("");
+        }
     }
 
     private void togglePasswordVisibility() {
@@ -81,18 +90,30 @@ public class EmbedSecretController {
         String message = EmbedMessageController.getSecretMessage();
         File imageFile = MainStartController.getSelectedEmbedImageFile();
 
-        if (message == null || message.isEmpty() || imageFile == null) {
-            System.out.println("Missing image or message. Cannot embed.");
+        if (message == null || message.isEmpty()) {
+            showError("No message entered. Please provide a secret message to embed.");
+            return;
+        }
+
+        if (imageFile == null) {
+            showError("No image selected. Please choose an image to embed the message into.");
             return;
         }
 
         try {
             Image embeddedImage = SteganographyUtil.embedMessage(imageFile, getHashedPassword(), message);
+            if (embeddedImage == null) {
+                showError("Embedding failed. Please ensure your image is valid and try again.");
+                return;
+            }
+
+            hideError(); 
             SaveEmbedImageController.setFinalImage(embeddedImage);
             System.out.println("Message embedded. Proceeding to Save Embedded Image...");
             App.setRoot("PaneSaveEmbedImage");
+
         } catch (IOException e) {
-            System.out.println("Error embedding message: " + e.getMessage());
+            showError("An error occurred: " + e.getMessage());
         }
     }
 
@@ -112,6 +133,20 @@ public class EmbedSecretController {
         }
 
         return hexString.toString();
+    }
+
+    private void showError(String message) {
+        if (errorLabel != null) {
+            errorLabel.setText(message);
+            errorLabel.setVisible(true);
+        }
+    }
+
+    private void hideError() {
+        if (errorLabel != null) {
+            errorLabel.setVisible(false);
+            errorLabel.setText("");
+        }
     }
 
     private String getHashedPassword() {

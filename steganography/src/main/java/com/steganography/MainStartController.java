@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -36,12 +37,20 @@ public class MainStartController {
     @FXML
     private TextField embedImagePathField;
 
+    @FXML
+    private Label extractErrorLabel;
+
+    @FXML
+    private Label embedErrorLabel;
+
     private static File selectedEmbedImageFile;
 
     private static File selectedExtractImageFile;
 
     @FXML
     private void onSelectEmbedImage() {
+        embedErrorLabel.setVisible(false); // Hide any previous errors
+
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Image for Embedding");
 
@@ -57,14 +66,18 @@ public class MainStartController {
             embedImageView.setImage(image);
             System.out.println("Embed: Image selected - " + file.getAbsolutePath());
         } else {
-            System.out.println("Embed: Image selection canceled.");
+            embedErrorLabel.setText("Embed: Image selection canceled.");
+            embedErrorLabel.setVisible(true);
         }
     }
 
     @FXML
     private void onEmbedNext() throws IOException {
+        embedErrorLabel.setVisible(false);
+
         if (selectedEmbedImageFile == null) {
-            System.out.println("Please select an image before proceeding.");
+            embedErrorLabel.setText("Please select an image before proceeding.");
+            embedErrorLabel.setVisible(true);
             return;
         }
 
@@ -74,6 +87,8 @@ public class MainStartController {
 
     @FXML
     private void onSelectExtractImage() {
+        extractErrorLabel.setVisible(false); // Clear previous error
+
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Image for Extraction");
 
@@ -84,10 +99,9 @@ public class MainStartController {
         File file = fileChooser.showOpenDialog(new Stage());
         if (file != null) {
             String filePath = file.getAbsolutePath().toLowerCase();
-            if (!filePath.endsWith(".png") && !filePath.endsWith(".jpg") &&
-                !filePath.endsWith(".jpeg") && !filePath.endsWith(".gif") &&
-                !filePath.endsWith(".bmp")) {
-                System.out.println("Unsupported file type selected.");
+            if (!filePath.matches(".*\\.(png|jpg|jpeg|gif|bmp)$")) {
+                extractErrorLabel.setText("Unsupported file type selected.");
+                extractErrorLabel.setVisible(true);
                 return;
             }
 
@@ -101,17 +115,22 @@ public class MainStartController {
                 System.out.println("Extract: Image selected - " + file.getAbsolutePath());
             } else {
                 extractNextButton.setDisable(true);
-                System.out.println("The selected image does not appear to contain a hidden message.");
+                extractErrorLabel.setText("The selected image does not appear to contain a hidden message.");
+                extractErrorLabel.setVisible(true);
             }
         } else {
-            System.out.println("Extract: Image selection canceled.");
+            extractErrorLabel.setText("Extract: Image selection canceled.");
+            extractErrorLabel.setVisible(true);
         }
     }
 
     @FXML
     private void onExtractNext() throws IOException {
+        extractErrorLabel.setVisible(false);
+
         if (selectedExtractImageFile == null) {
-            System.out.println("Please select an image before proceeding.");
+            extractErrorLabel.setText("Please select an image before proceeding.");
+            extractErrorLabel.setVisible(true);
             return;
         }
 
