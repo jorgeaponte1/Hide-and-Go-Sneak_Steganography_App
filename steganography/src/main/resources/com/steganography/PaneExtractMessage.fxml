@@ -50,6 +50,20 @@
                         <Insets left="320.0" />
                      </GridPane.margin>
                   </Text>
+                  <Label fx:id="errorLabel"
+                        textFill="red"
+                        visible="false"
+                        wrapText="true"
+                        alignment="CENTER"
+                        GridPane.rowIndex="2"
+                        GridPane.columnSpan="2">
+                     <GridPane.margin>
+                        <Insets top="10.0" bottom="10.0" left="100.0" right="100.0"/>
+                     </GridPane.margin>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
                   <Button fx:id="returnButton" mnemonicParsing="false" prefHeight="72.0" prefWidth="192.0" text="Return to Start" GridPane.rowIndex="2" onAction="#onReturnClicked">
                      <font>
                         <Font size="24.0" />
