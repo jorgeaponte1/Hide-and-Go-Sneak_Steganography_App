@@ -41,9 +41,10 @@ public class EmbedSecretController {
 
     @FXML
     private void initialize() {
+        nextButton.setDisable(true);
+
         visiblePasswordField.setManaged(false);
         visiblePasswordField.setVisible(false);
-
         passwordField.textProperty().bindBidirectional(visiblePasswordField.textProperty());
 
         showPasswordCheckBox.setOnAction(e -> togglePasswordVisibility());
@@ -74,9 +75,11 @@ public class EmbedSecretController {
 
         try {
             hashedPassword = hashPassword(password);
+            hideError();
+            nextButton.setDisable(false);
             System.out.println("Password saved and hashed (SHA-256): " + hashedPassword);
         } catch (NoSuchAlgorithmException e) {
-            System.out.println("Error hashing password: " + e.getMessage());
+            showError("Error hashing password.");
         }
     }
 

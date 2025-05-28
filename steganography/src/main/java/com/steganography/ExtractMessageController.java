@@ -13,6 +13,9 @@ public class ExtractMessageController {
     private Label messageLabel;
 
     @FXML
+    private Label errorLabel;
+
+    @FXML
     private Button returnButton;
 
     @FXML
@@ -26,11 +29,36 @@ public class ExtractMessageController {
 
     @FXML
     private void initialize() {
-        messageText.setText(extractedMessage != null ? extractedMessage : "No message extracted.");
+        if (errorLabel != null) {
+            errorLabel.setVisible(false);
+            errorLabel.setText("");
+        }
+
+        if (extractedMessage == null || extractedMessage.trim().isEmpty()) {
+            showError("No message could be extracted. Please try again with a valid image and password.");
+            messageText.setText("");
+        } else {
+            hideError();
+            messageText.setText(extractedMessage);
+        }
     }
 
     @FXML
     private void onReturnClicked() throws IOException {
         App.setRoot("PaneMain");
+    }
+
+    private void showError(String message) {
+        if (errorLabel != null) {
+            errorLabel.setText(message);
+            errorLabel.setVisible(true);
+        }
+    }
+
+    private void hideError() {
+        if (errorLabel != null) {
+            errorLabel.setVisible(false);
+            errorLabel.setText("");
+        }
     }
 }
