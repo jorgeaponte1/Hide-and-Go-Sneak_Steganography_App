@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -10,8 +11,6 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<?import javafx.scene.control.Label?>
-
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.steganography.EmbedMessageController">
    <children>
@@ -39,15 +38,9 @@
                   <Insets left="1000.0" />
                </GridPane.margin>
             </Button>
-            <Label fx:id="messageErrorLabel"
-                  textFill="red"
-                  visible="false"
-                  wrapText="true"
-                  GridPane.rowIndex="2"
-                  GridPane.columnSpan="2"
-                  alignment="CENTER">
+            <Label fx:id="messageErrorLabel" alignment="CENTER" textFill="red" visible="false" wrapText="true" GridPane.columnSpan="2" GridPane.rowIndex="2">
                <GridPane.margin>
-                  <Insets top="10.0" bottom="10.0" left="100.0" right="100.0"/>
+                  <Insets bottom="10.0" left="100.0" right="100.0" top="10.0" />
                </GridPane.margin>
                <font>
                   <Font size="18.0" />
@@ -75,6 +68,14 @@
                </font>
                <GridPane.margin>
                   <Insets left="1108.0" top="300.0" />
+               </GridPane.margin>
+            </Button>
+            <Button fx:id="returnToStartButton" mnemonicParsing="false" onAction="#onReturnToStartClicked" prefHeight="72.0" prefWidth="154.0" text="Restart" GridPane.rowIndex="2">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="700.0" />
                </GridPane.margin>
             </Button>
          </children>

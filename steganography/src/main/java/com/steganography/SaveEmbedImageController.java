@@ -80,6 +80,8 @@ public class SaveEmbedImageController {
     @FXML
     private void onReturnToStartClicked() throws IOException {
         System.out.println("Returning to start (primary view)...");
+        resultImageView.setImage(null);
+        finalEmbeddedImage = null;
         App.setRoot("PaneMain");
     }
 

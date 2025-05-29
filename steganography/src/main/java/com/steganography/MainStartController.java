@@ -10,7 +10,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 public class MainStartController {
     @FXML
@@ -48,6 +47,12 @@ public class MainStartController {
     private static File selectedExtractImageFile;
 
     @FXML
+    private void initialize() {
+        extractNextButton.setDisable(true);
+        reset();
+    }
+
+    @FXML
     private void onSelectEmbedImage() {
         embedErrorLabel.setVisible(false); // Hide any previous errors
 
@@ -58,7 +63,7 @@ public class MainStartController {
             new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif", "*.bmp")
         );
 
-        File file = fileChooser.showOpenDialog(new Stage());
+        File file = fileChooser.showOpenDialog(selectEmbedImageButton.getScene().getWindow());
         if (file != null) {
             selectedEmbedImageFile = file;
             embedImagePathField.setText(file.getAbsolutePath());
@@ -96,7 +101,7 @@ public class MainStartController {
             new FileChooser.ExtensionFilter("Supported Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif", "*.bmp")
         );
 
-        File file = fileChooser.showOpenDialog(new Stage());
+        File file = fileChooser.showOpenDialog(selectExtractImageButton.getScene().getWindow());
         if (file != null) {
             String filePath = file.getAbsolutePath().toLowerCase();
             if (!filePath.matches(".*\\.(png|jpg|jpeg|gif|bmp)$")) {
@@ -136,6 +141,11 @@ public class MainStartController {
 
         System.out.println("Extract: Next clicked, moving to Extract Secret...");
         App.setRoot("PaneExtractSecret");
+    }
+
+    public static void reset() {
+        selectedEmbedImageFile = null;
+        selectedExtractImageFile = null;
     }
 
     private boolean checkImageHasEmbeddedData(File file) {
