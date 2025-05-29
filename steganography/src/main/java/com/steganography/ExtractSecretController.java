@@ -9,6 +9,7 @@ import java.security.NoSuchAlgorithmException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
@@ -29,6 +30,9 @@ public class ExtractSecretController {
     @FXML
     private Button nextButton;
 
+    @FXML
+    private Label errorLabel;
+
     private static String hashedPassword = "";
 
     @FXML
@@ -40,6 +44,11 @@ public class ExtractSecretController {
         passwordField.textProperty().bindBidirectional(visiblePasswordField.textProperty());
 
         showPasswordCheckBox.setOnAction(e -> togglePasswordVisibility());
+
+        if (errorLabel != null) {
+            errorLabel.setVisible(false);
+            errorLabel.setText("");
+        }
     }
 
     private void togglePasswordVisibility() {
@@ -54,42 +63,43 @@ public class ExtractSecretController {
     private void onSavePasswordClicked() {
         String password = getPassword().trim();
         if (password.isEmpty()) {
-            System.out.println("Password field is empty.");
+            showError("Password field is empty.");
             return;
         }
 
         try {
             hashedPassword = hashPassword(password);
+            hideError();
+            nextButton.setDisable(false);
             System.out.println("Password hashed (SHA-256): " + hashedPassword);
-            nextButton.setDisable(false); // Enable Next
         } catch (NoSuchAlgorithmException e) {
-            System.out.println("Error hashing password: " + e.getMessage());
+            showError("Error hashing password.");
         }
     }
 
     @FXML
     private void onNextClicked() throws IOException {
         if (hashedPassword.isEmpty()) {
-            System.out.println("Please enter a password first.");
+            showError("Please enter and save a password first.");
             return;
         }
 
         File file = MainStartController.getSelectedExtractImageFile();
         if (file == null) {
-            System.out.println("No image selected for extraction.");
+            showError("No image selected for extraction.");
             return;
         }
 
         try {
             String extracted = SteganographyUtil.extractMessage(file);
             if (extracted == null || !extracted.startsWith("S")) {
-                System.out.println("Invalid or corrupted image.");
+                showError("Invalid or corrupted image.");
                 return;
             }
 
             String[] parts = extracted.substring(1).split("\\|", 2);
             if (parts.length < 2) {
-                System.out.println("Corrupted embedded data.");
+                showError("Corrupted embedded data.");
                 return;
             }
 
@@ -97,15 +107,16 @@ public class ExtractSecretController {
             String message = parts[1];
 
             if (embeddedHash.equals(hashedPassword)) {
+                hideError();
                 ExtractMessageController.setExtractedMessage(message);
                 System.out.println("Password correct. Proceeding...");
                 App.setRoot("PaneExtractMessage");
             } else {
-                System.out.println("Incorrect password.");
+                showError("Incorrect password.");
             }
 
         } catch (IOException e) {
-            System.out.println("Error extracting message: " + e.getMessage());
+            showError("Error extracting message: " + e.getMessage());
         }
     }
 
@@ -123,6 +134,20 @@ public class ExtractSecretController {
             hexString.append(hex);
         }
         return hexString.toString();
+    }
+
+    private void showError(String message) {
+        if (errorLabel != null) {
+            errorLabel.setText(message);
+            errorLabel.setVisible(true);
+        }
+    }
+
+    private void hideError() {
+        if (errorLabel != null) {
+            errorLabel.setVisible(false);
+            errorLabel.setText("");
+        }
     }
 
     public static String getHashedPassword() {
