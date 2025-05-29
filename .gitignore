@@ -1,0 +1,5 @@
+# Ignore all build outputs
+steganography/target/
+
+# Ignore VSCode config
+.vscode/
