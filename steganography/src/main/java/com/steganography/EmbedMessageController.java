@@ -53,12 +53,16 @@ public class EmbedMessageController {
 
     @FXML
     private void onReturnToStartClicked() throws IOException {
-        System.out.println("Returning to start (primary view)...");
-        secretMessage = "";
-        messageTextArea.clear();
-        messageErrorLabel.setVisible(false);
-        MainStartController.reset();
-        App.setRoot("PaneMain");
+        if(SteganographyUtil.confirmReturnToStart()){
+            System.out.println("Returning to start (primary view)...");
+            secretMessage = "";
+            messageTextArea.clear();
+            messageErrorLabel.setVisible(false);
+            MainStartController.reset();
+            App.setRoot("PaneMain");
+        } else {
+            System.out.println("Return to start canceled.");
+        }
     }
 
     public static String getSecretMessage() {

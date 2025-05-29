@@ -125,16 +125,20 @@ public class EmbedSecretController {
 
     @FXML
     private void onReturnToStartClicked() throws IOException {
-        System.out.println("Returning to start (primary view)...");
-        passwordField.clear();
-        visiblePasswordField.clear();
-        showPasswordCheckBox.setSelected(false);
-        hashedPassword = "";
-        errorLabel.setVisible(false);
-        nextButton.setDisable(true);
-        EmbedMessageController.secretMessage = "";
-        MainStartController.reset();
-        App.setRoot("PaneMain");
+        if(SteganographyUtil.confirmReturnToStart()){
+            System.out.println("Returning to start (primary view)...");
+            passwordField.clear();
+            visiblePasswordField.clear();
+            showPasswordCheckBox.setSelected(false);
+            hashedPassword = "";
+            errorLabel.setVisible(false);
+            nextButton.setDisable(true);
+            EmbedMessageController.secretMessage = "";
+            MainStartController.reset();
+            App.setRoot("PaneMain");
+        } else {
+            System.out.println("Return to start canceled.");
+        }
     }
 
     private String getPassword() {
