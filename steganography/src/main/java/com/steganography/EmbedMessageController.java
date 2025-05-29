@@ -21,7 +21,10 @@ public class EmbedMessageController {
     @FXML
     private Label messageErrorLabel;
 
-    private static String secretMessage = "";
+    @FXML
+    private Button returnToStartButton;
+
+    public static String secretMessage = "";
 
     @FXML
     private void onSaveClicked() {
@@ -46,6 +49,16 @@ public class EmbedMessageController {
             System.out.println("Proceeding to Embed Secret...");
             App.setRoot("PaneEmbedSecret");
         }
+    }
+
+    @FXML
+    private void onReturnToStartClicked() throws IOException {
+        System.out.println("Returning to start (primary view)...");
+        secretMessage = "";
+        messageTextArea.clear();
+        messageErrorLabel.setVisible(false);
+        MainStartController.reset();
+        App.setRoot("PaneMain");
     }
 
     public static String getSecretMessage() {
