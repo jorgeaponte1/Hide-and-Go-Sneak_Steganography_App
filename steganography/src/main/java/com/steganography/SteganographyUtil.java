@@ -6,6 +6,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
@@ -103,5 +105,15 @@ public class SteganographyUtil {
         }
 
         return message.toString(); // should be: S<hash>|<secret>
+    }
+
+    public static boolean confirmReturnToStart() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm Navigation");
+        alert.setHeaderText("Return to Start");
+        alert.setContentText("Are you sure you want to return to the start? All unsaved data will be lost.");
+
+        ButtonType result = alert.showAndWait().orElse(ButtonType.CANCEL);
+        return result == ButtonType.OK;
     }
 }
