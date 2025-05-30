@@ -9,6 +9,7 @@ import java.security.NoSuchAlgorithmException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -40,7 +41,12 @@ public class EmbedSecretController {
     @FXML
     private Button returnToStartButton;
 
+    @FXML
+    private ComboBox<String> hashAlgorithmComboBox;
+
     private String hashedPassword = "";
+
+    private String algorithm = "";
 
     @FXML
     private void initialize() {
@@ -51,6 +57,16 @@ public class EmbedSecretController {
         passwordField.textProperty().bindBidirectional(visiblePasswordField.textProperty());
 
         showPasswordCheckBox.setOnAction(e -> togglePasswordVisibility());
+
+        hashAlgorithmComboBox.getItems().addAll(
+            "SHA-256 (Strong - Recommended)",
+            "SHA-512 (Very Strong)",
+            "SHA-384 (Strong)",
+            "SHA-224 (Moderate)",
+            "SHA-1 (Weak (Legacy) - Not Recommended)",
+            "MD5 (Weak (Legacy) - Not Recommended)"
+        );
+        hashAlgorithmComboBox.getSelectionModel().select("SHA-256 (Strong - Recommended)");
 
         // Initialize error label
         if (errorLabel != null) {
@@ -80,7 +96,7 @@ public class EmbedSecretController {
             hashedPassword = hashPassword(password);
             hideError();
             nextButton.setDisable(false);
-            System.out.println("Password saved and hashed (SHA-256): " + hashedPassword);
+            System.out.println("Password hashed ("  + getAlgorithm() + "): " + hashedPassword);
         } catch (NoSuchAlgorithmException e) {
             showError("Error hashing password.");
         }
@@ -146,17 +162,14 @@ public class EmbedSecretController {
     }
 
     private String hashPassword(String password) throws NoSuchAlgorithmException {
-        MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        byte[] encodedHash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+        MessageDigest digest = MessageDigest.getInstance(getAlgorithm());
+        byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
 
-        StringBuilder hexString = new StringBuilder();
-        for (byte b : encodedHash) {
-            String hex = Integer.toHexString(0xff & b);
-            if (hex.length() == 1) hexString.append('0');
-            hexString.append(hex);
+        StringBuilder hex = new StringBuilder();
+        for (byte b : hash) {
+            hex.append(String.format("%02x", b));
         }
-
-        return hexString.toString();
+        return hex.toString();
     }
 
     private void showError(String message) {
@@ -171,6 +184,10 @@ public class EmbedSecretController {
             errorLabel.setVisible(false);
             errorLabel.setText("");
         }
+    }
+
+    private String getAlgorithm(){
+        return hashAlgorithmComboBox.getValue().split(" ")[0];
     }
 
     private String getHashedPassword() {
