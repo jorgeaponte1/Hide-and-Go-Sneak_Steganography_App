@@ -9,67 +9,139 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.TransferMode;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 
 public class MainStartController {
-    @FXML
+    @FXML 
     private ImageView extractImageView;
-
-    @FXML
+    
+    @FXML 
     private TextField extractImagePathField;
-
-    @FXML
+    
+    @FXML 
     private Button selectEmbedImageButton;
-
-    @FXML
+    
+    @FXML 
     private Button embedNextButton;
-
-    @FXML
+    
+    @FXML 
     private Button selectExtractImageButton;
-
-    @FXML
+    
+    @FXML 
     private Button extractNextButton;
-
-    @FXML
-    private ImageView embedImageView; // reference to ImageView in Embed tab
-
+    
+    @FXML 
+    private ImageView embedImageView;
+    
     @FXML
     private TextField embedImagePathField;
-
+    
     @FXML
     private Label extractErrorLabel;
-
+    
     @FXML
     private Label embedErrorLabel;
+    
+    @FXML
+    private Label embedOverlayLabel;
+    
+    @FXML
+    private Label extractOverlayLabel;
+    
+    @FXML
+    private StackPane embedImageStack;
+    
+    @FXML
+    private StackPane extractImageStack;
 
     private static File selectedEmbedImageFile;
-
+    
     private static File selectedExtractImageFile;
 
     @FXML
     private void initialize() {
         extractNextButton.setDisable(true);
         reset();
+
+        setupDragAndDrop(embedImageStack, embedImageView, embedImagePathField, embedOverlayLabel, true);
+        setupDragAndDrop(extractImageStack, extractImageView, extractImagePathField, extractOverlayLabel, false);
+
+        embedOverlayLabel.setVisible(true);
+        extractOverlayLabel.setVisible(true);
+    }
+
+    private void setupDragAndDrop(StackPane stackPane, ImageView imageView, TextField pathField, Label overlayLabel, boolean isEmbed) {
+        stackPane.setOnDragOver(event -> {
+            if (event.getDragboard().hasFiles()) {
+                event.acceptTransferModes(TransferMode.COPY);
+            }
+            event.consume();
+        });
+
+        stackPane.setOnDragEntered(event -> {
+            imageView.setStyle("-fx-border-color: #4A90E2; -fx-border-width: 2;");
+            overlayLabel.setVisible(true);
+        });
+
+        stackPane.setOnDragExited(event -> {
+            imageView.setStyle("-fx-border-color: gray; -fx-border-width: 2;");
+        });
+
+        stackPane.setOnDragDropped(event -> {
+            boolean success = false;
+            var db = event.getDragboard();
+            if (db.hasFiles()) {
+                File file = db.getFiles().get(0);
+                if (isValidImageFile(file)) {
+                    if (!isEmbed && !checkImageHasEmbeddedData(file)) {
+                        extractErrorLabel.setText("Dropped image has no hidden message.");
+                        extractErrorLabel.setVisible(true);
+                        extractNextButton.setDisable(true);
+                    } else {
+                        if (isEmbed) {
+                            selectedEmbedImageFile = file;
+                        } else {
+                            selectedExtractImageFile = file;
+                            extractNextButton.setDisable(false);
+                        }
+                        pathField.setText(file.getAbsolutePath());
+                        imageView.setImage(new Image(file.toURI().toString()));
+                        overlayLabel.setVisible(false);
+                        extractErrorLabel.setVisible(false);
+                        embedErrorLabel.setVisible(false);
+                        success = true;
+                    }
+                } else {
+                    if (isEmbed) {
+                        embedErrorLabel.setText("Unsupported file type dropped.");
+                        embedErrorLabel.setVisible(true);
+                    } else {
+                        extractErrorLabel.setText("Unsupported file type dropped.");
+                        extractErrorLabel.setVisible(true);
+                    }
+                }
+            }
+            event.setDropCompleted(success);
+            event.consume();
+        });
+    }
+
+    private boolean isValidImageFile(File file) {
+        String path = file.getAbsolutePath().toLowerCase();
+        return path.matches(".*\\.(png|jpg|jpeg|gif|bmp)$");
     }
 
     @FXML
     private void onSelectEmbedImage() {
-        embedErrorLabel.setVisible(false); // Hide any previous errors
-
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Select Image for Embedding");
-
-        fileChooser.getExtensionFilters().addAll(
-            new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif", "*.bmp")
-        );
-
-        File file = fileChooser.showOpenDialog(selectEmbedImageButton.getScene().getWindow());
+        embedErrorLabel.setVisible(false);
+        File file = chooseImageFile("Select Image for Embedding");
         if (file != null) {
             selectedEmbedImageFile = file;
             embedImagePathField.setText(file.getAbsolutePath());
-            Image image = new Image(file.toURI().toString());
-            embedImageView.setImage(image);
-            System.out.println("Embed: Image selected - " + file.getAbsolutePath());
+            embedImageView.setImage(new Image(file.toURI().toString()));
+            embedOverlayLabel.setVisible(false);
         } else {
             embedErrorLabel.setText("Embed: Image selection canceled.");
             embedErrorLabel.setVisible(true);
@@ -79,50 +151,30 @@ public class MainStartController {
     @FXML
     private void onEmbedNext() throws IOException {
         embedErrorLabel.setVisible(false);
-
         if (selectedEmbedImageFile == null) {
             embedErrorLabel.setText("Please select an image before proceeding.");
             embedErrorLabel.setVisible(true);
             return;
         }
-
-        System.out.println("Embed: Next clicked, moving to Embed Message...");
         App.setRoot("PaneEmbedMessage");
     }
 
     @FXML
     private void onSelectExtractImage() {
         extractErrorLabel.setVisible(false); // Clear previous error
-
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Select Image for Extraction");
-
-        fileChooser.getExtensionFilters().addAll(
-            new FileChooser.ExtensionFilter("Supported Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif", "*.bmp")
-        );
-
-        File file = fileChooser.showOpenDialog(selectExtractImageButton.getScene().getWindow());
+        File file = chooseImageFile("Select Image for Extraction");
         if (file != null) {
-            String filePath = file.getAbsolutePath().toLowerCase();
-            if (!filePath.matches(".*\\.(png|jpg|jpeg|gif|bmp)$")) {
-                extractErrorLabel.setText("Unsupported file type selected.");
-                extractErrorLabel.setVisible(true);
-                return;
-            }
-
-            boolean hasMessage = checkImageHasEmbeddedData(file);
-
-            if (hasMessage) {
-                selectedExtractImageFile = file;
-                extractImagePathField.setText(file.getAbsolutePath());
-                extractImageView.setImage(new Image(file.toURI().toString()));
-                extractNextButton.setDisable(false);
-                System.out.println("Extract: Image selected - " + file.getAbsolutePath());
-            } else {
+            if (!checkImageHasEmbeddedData(file)) {
                 extractNextButton.setDisable(true);
                 extractErrorLabel.setText("The selected image does not appear to contain a hidden message.");
                 extractErrorLabel.setVisible(true);
+                return;
             }
+            selectedExtractImageFile = file;
+            extractImagePathField.setText(file.getAbsolutePath());
+            extractImageView.setImage(new Image(file.toURI().toString()));
+            extractOverlayLabel.setVisible(false);
+            extractNextButton.setDisable(false);
         } else {
             extractErrorLabel.setText("Extract: Image selection canceled.");
             extractErrorLabel.setVisible(true);
@@ -139,8 +191,16 @@ public class MainStartController {
             return;
         }
 
-        System.out.println("Extract: Next clicked, moving to Extract Secret...");
         App.setRoot("PaneExtractSecret");
+    }
+
+    private File chooseImageFile(String title) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle(title);
+        fileChooser.getExtensionFilters().add(
+            new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif", "*.bmp")
+        );
+        return fileChooser.showOpenDialog(null);
     }
 
     public static void reset() {
@@ -153,15 +213,11 @@ public class MainStartController {
             java.awt.image.BufferedImage image = javax.imageio.ImageIO.read(file);
             if (image == null) return false;
 
-            int width = image.getWidth();
-            int height = image.getHeight();
-
-            // Check a few least-significant bits in the blue channel for a known marker (like 'S' = 0x53)
             int markerBits = 0;
             int bitIndex = 0;
 
-            for (int y = 0; y < height && bitIndex < 8; y++) {
-                for (int x = 0; x < width && bitIndex < 8; x++) {
+            for (int y = 0; y < image.getHeight() && bitIndex < 8; y++) {
+                for (int x = 0; x < image.getWidth() && bitIndex < 8; x++) {
                     int rgb = image.getRGB(x, y);
                     int blue = rgb & 0xFF;
                     int lsb = blue & 1;

@@ -1,6 +1,8 @@
 # Ignore all build outputs
 steganography/target/
 
+# Ignore Mavin Build artifact
+steganography/dependency-reduced-pom.xml
+
 # Ignore VSCode config
 .vscode/
-steganography/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
