@@ -9,6 +9,7 @@ import java.security.NoSuchAlgorithmException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -36,7 +37,12 @@ public class ExtractSecretController {
     @FXML
     private Button returnToStartButton;
 
+    @FXML
+    private ComboBox<String> hashAlgorithmComboBox;
+
     private static String hashedPassword = "";
+
+    private String algorithm = "";
 
     @FXML
     private void initialize() {
@@ -47,6 +53,16 @@ public class ExtractSecretController {
         passwordField.textProperty().bindBidirectional(visiblePasswordField.textProperty());
 
         showPasswordCheckBox.setOnAction(e -> togglePasswordVisibility());
+
+        hashAlgorithmComboBox.getItems().addAll(
+            "SHA-256 (Strong - Recommended)",
+            "SHA-512 (Very Strong)",
+            "SHA-384 (Strong)",
+            "SHA-224 (Moderate)",
+            "SHA-1 (Weak (Legacy) - Not Recommended)",
+            "MD5 (Weak (Legacy) - Not Recommended)"
+        );
+        hashAlgorithmComboBox.getSelectionModel().select("SHA-256 (Strong - Recommended)");
 
         if (errorLabel != null) {
             errorLabel.setVisible(false);
@@ -74,7 +90,7 @@ public class ExtractSecretController {
             hashedPassword = hashPassword(password);
             hideError();
             nextButton.setDisable(false);
-            System.out.println("Password hashed (SHA-256): " + hashedPassword);
+            System.out.println("Password hashed ("  + getAlgorithm() + "): " + hashedPassword);
         } catch (NoSuchAlgorithmException e) {
             showError("Error hashing password.");
         }
@@ -145,8 +161,9 @@ public class ExtractSecretController {
     }
 
     private String hashPassword(String password) throws NoSuchAlgorithmException {
-        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        MessageDigest digest = MessageDigest.getInstance(getAlgorithm());
         byte[] encodedHash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+        
         StringBuilder hexString = new StringBuilder();
         for (byte b : encodedHash) {
             String hex = Integer.toHexString(0xff & b);
@@ -168,6 +185,10 @@ public class ExtractSecretController {
             errorLabel.setVisible(false);
             errorLabel.setText("");
         }
+    }
+
+    private String getAlgorithm(){
+        return hashAlgorithmComboBox.getValue().split(" ")[0];
     }
 
     public static String getHashedPassword() {
