@@ -15,7 +15,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21.0.7" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.steganography.SaveEmbedImageController">
    <children>
-      <TitledPane alignment="TOP_CENTER" animated="false" collapsible="false" prefHeight="801.0" prefWidth="1281.0" text="Steganography App">
+      <TitledPane alignment="TOP_CENTER" animated="false" collapsible="false" prefHeight="801.0" prefWidth="1281.0" text="Hide-and-Go-Sneak">
          <font>
             <Font name="System Bold" size="36.0" />
          </font>

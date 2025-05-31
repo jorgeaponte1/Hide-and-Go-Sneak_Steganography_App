@@ -1,56 +1,58 @@
-# Steganography App
+# 🕵️ Hide-and-Go-Sneak App
 
-A JavaFX-based desktop application that allows you to hide secret messages inside image files (using steganography) and extract hidden messages from them.
-
-## Features
-
-* Embed text messages into PNG images using password-based encryption.
-* Extract hidden messages using the correct password.
-* User-friendly JavaFX GUI interface.
-* Drag-and-drop image support.
-* Built with Java 21 and JavaFX 21.0.7.
+A JavaFX-based desktop application that lets you **hide and extract secret messages** inside images using **password-based steganography**. Built with Java 21 and JavaFX 21.0.7.
 
 ---
 
-## Prerequisites
+## 📦 Features
+
+* Embed text messages into PNG images using password-based encryption.
+* Secure password protection using various **hashing algorithms**
+* Extract hidden messages with correct password match.
+* User-friendly JavaFX GUI interface.
+* Drag-and-drop image support.
+* Fully portable: builds a runnable `.jar` with no external dependencies
+
+---
+
+## ✅ Prerequisites
 
 To run this application, ensure you have the following installed:
 
 * **Java 21+ JDK**
-* **JavaFX SDK 21.0.7** (must match build version)
-* Git (optional, for cloning the repo)
+* **Maven 3.6+**
 
 ---
 
-## Getting Started
+## 🚀 Getting Started
 
-### 1. Clone or Download the Repository
+### 1. 📂 Clone this Repository
 
 ```bash
-git clone https://github.com/yourusername/steganography-app.git
-cd steganography-app
+git clone https://github.com/yourusername/SteganographyApp.git
+cd SteganographyApp/steganography
 ```
-
-Or download the ZIP and extract it.
 
 ---
 
-### 2. Build the Application
-
-Ensure Java and Maven are installed, then:
+### 2. 🔨 Build the Application
 
 ```bash
 mvn clean package
 ```
 
-This will generate an executable JAR file in the `target/` folder.
+This will generate an executable JAR file at:
+
+```
+target/Hide-and-Go-Sneak.jar
+```
 
 ---
 
-### 3. Run the Application
+### 3. ▶️ Run the Application
 
 ```bash
-java -jar target/steganography-app.jar
+java -jar target/Hide-and-Go-Sneak.jar
 ```
 
 If you encounter issues about JavaFX components missing:
@@ -64,6 +66,31 @@ Make sure to replace the path if your JavaFX SDK is installed elsewhere.
 ---
 
 ## Usage
+
+## 🔐 Hash Algorithm Selection (Password Encryption)
+
+When embedding or extracting a secret, you must provide a password. You will also select a **hashing algorithm** that will encode the password. This must be the **same during both embed and extract**.
+
+### 📘 Options Available:
+
+| Algorithm      | Strength Level                | Notes                                |
+|----------------|-------------------------------|--------------------------------------|
+| SHA-256        | 🔐 Strong - Recommended        | Secure and standard (256-bit digest) |
+| SHA-512        | 🔐 Very Strong                 | High security (512-bit digest)       |
+| SHA-384        | 🔐 Strong                      | Slightly faster than SHA-512         |
+| SHA-224        | 🟡 Moderate                    | Rarely used                          |
+| SHA-1          | ⚠️ Weak (Legacy)               | Deprecated - avoid use               |
+| MD5            | ⚠️ Weak (Legacy)               | Deprecated - vulnerable to attacks   |
+
+> 📝 You **must choose the same algorithm** when embedding and later extracting the secret. Otherwise, password matching will fail.
+
+### 💡 Example Use Case
+
+1. When embedding:
+   - Password: `mysecret`
+   - Algorithm: `SHA-256 (Strong - Recommended)`
+2. When extracting:
+   - Use the same password and same algorithm selection.
 
 ### Embedding a Message
 
@@ -86,7 +113,15 @@ Make sure to replace the path if your JavaFX SDK is installed elsewhere.
 ## Troubleshooting
 
 * **JavaFX API Version Warning**: This is expected if you use classpath-based launching (not a bug).
-* **App Won't Launch**: Ensure you're using Java 21+ and JavaFX 21.0.7.
+* **App Won't Launch**: Ensure you're using Java 21+ and Maven 3.6+ (to build package).
+
+---
+
+## 🛠 Technologies Used
+
+- Java 21
+- JavaFX 21.0.7
+- Maven
 
 ---
 
@@ -96,13 +131,13 @@ Pull requests are welcome! Feel free to open issues or suggest improvements.
 
 ---
 
-## License
+## 📝 License
 
-MIT License. See `LICENSE` file for details.
+This project is licensed under the MIT License.
 
 ---
 
 ## Credits
 
-* Developed using JavaFX and Maven.
+* Developed by Jorge and Jessica Aponte.
 * Icons and UI components: \[credits if any].

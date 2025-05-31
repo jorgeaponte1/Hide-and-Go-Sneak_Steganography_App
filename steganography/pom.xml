@@ -36,7 +36,7 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>steganography-app</finalName> 
+        <finalName>Hide-and-Go-Sneak</finalName> 
         
         <plugins>
             <!-- Compile with Java 21 -->

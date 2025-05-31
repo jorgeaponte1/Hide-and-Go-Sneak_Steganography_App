@@ -50,7 +50,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21.0.7" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.steganography.MainStartController">
    <children>
-      <TitledPane alignment="CENTER" animated="false" collapsible="false" prefHeight="800.0" prefWidth="1280.0" text="Steganography App" textAlignment="CENTER">
+      <TitledPane alignment="CENTER" animated="false" collapsible="false" prefHeight="800.0" prefWidth="1280.0" text="Hide-and-Go-Sneak" textAlignment="CENTER">
          <content>
             <TabPane maxHeight="1.7976931348623157E308" prefHeight="800.0" prefWidth="1280.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>

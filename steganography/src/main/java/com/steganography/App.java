@@ -20,7 +20,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("PaneMain"), 1280, 800);
-        stage.setTitle("Steganography App");
+        stage.setTitle("Hide-and-Go-Sneak");
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();
