@@ -213,20 +213,26 @@ public class MainStartController {
             java.awt.image.BufferedImage image = javax.imageio.ImageIO.read(file);
             if (image == null) return false;
 
-            int markerBits = 0;
+            // Extract the first 8 bits (1 byte) from LSBs of blue channel
+            int marker = 0;
             int bitIndex = 0;
 
-            for (int y = 0; y < image.getHeight() && bitIndex < 8; y++) {
-                for (int x = 0; x < image.getWidth() && bitIndex < 8; x++) {
+            outerLoop:
+            for (int y = 0; y < image.getHeight(); y++) {
+                for (int x = 0; x < image.getWidth(); x++) {
                     int rgb = image.getRGB(x, y);
                     int blue = rgb & 0xFF;
                     int lsb = blue & 1;
-                    markerBits = (markerBits << 1) | lsb;
+
+                    marker = (marker << 1) | lsb;
                     bitIndex++;
+
+                    if (bitIndex == 8) break outerLoop;
                 }
             }
 
-            return markerBits == 0x53; // ASCII 'S' as a basic marker
+            return marker == 0x53; // ASCII value of 'S' is 0x53
+
         } catch (IOException e) {
             System.out.println("Error reading image: " + e.getMessage());
             return false;

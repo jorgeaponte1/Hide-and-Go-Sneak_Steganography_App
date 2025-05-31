@@ -22,22 +22,23 @@ public class SteganographyUtil {
 
         String data = hashedPassword + "|" + secretMessage;
         byte[] fullMessageBytes = data.getBytes();
-        
+
         // Prefix with marker 'S' and append null terminator
         byte[] fullBytes = new byte[fullMessageBytes.length + 2];
         fullBytes[0] = 0x53; // ASCII 'S' marker
         System.arraycopy(fullMessageBytes, 0, fullBytes, 1, fullMessageBytes.length);
         fullBytes[fullBytes.length - 1] = 0x00;
 
+        // Convert message to binary string
         StringBuilder binaryMessage = new StringBuilder();
         for (byte b : fullBytes) {
             binaryMessage.append(String.format("%8s", Integer.toBinaryString(b & 0xFF)).replace(' ', '0'));
         }
 
-        int msgIndex = 0;
+        int bitIndex = 0;
         BufferedImage outputImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
-        outerLoop:
+        outer:
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 int rgb = inputImage.getRGB(x, y);
@@ -45,29 +46,51 @@ public class SteganographyUtil {
                 int g = (rgb >> 8) & 0xFF;
                 int b = rgb & 0xFF;
 
-                if (msgIndex < binaryMessage.length()) {
-                    b = (b & 0xFE) | (binaryMessage.charAt(msgIndex) - '0');
-                    msgIndex++;
+                // First 8 bits go to Blue channel LSBs for marker 'S' only
+                if (bitIndex < 8) {
+                    int bit = binaryMessage.charAt(bitIndex++) - '0';
+                    b = (b & 0xFE) | bit;
+                } else {
+                    // After marker, use R -> G -> B in sequence
+                    if (bitIndex < binaryMessage.length()) {
+                        int bit = binaryMessage.charAt(bitIndex++) - '0';
+                        r = (r & 0xFE) | bit;
+                    }
+                    if (bitIndex < binaryMessage.length()) {
+                        int bit = binaryMessage.charAt(bitIndex++) - '0';
+                        g = (g & 0xFE) | bit;
+                    }
+                    if (bitIndex < binaryMessage.length()) {
+                        int bit = binaryMessage.charAt(bitIndex++) - '0';
+                        b = (b & 0xFE) | bit;
+                    }
                 }
 
                 int newRgb = (r << 16) | (g << 8) | b;
                 outputImage.setRGB(x, y, newRgb);
 
-                if (msgIndex >= binaryMessage.length()) {
-                    break outerLoop;
+                if (bitIndex >= binaryMessage.length()) {
+                    // Copy the rest of the image unchanged
+                    for (int y2 = y; y2 < height; y2++) {
+                        for (int x2 = (y2 == y ? x + 1 : 0); x2 < width; x2++) {
+                            outputImage.setRGB(x2, y2, inputImage.getRGB(x2, y2));
+                        }
+                    }
+                    break outer;
                 }
             }
         }
 
+        // Convert to JavaFX WritableImage
         WritableImage fxImage = new WritableImage(width, height);
         PixelWriter writer = fxImage.getPixelWriter();
-        for (int y = 0; y < outputImage.getHeight(); y++) {
-            for (int x = 0; x < outputImage.getWidth(); x++) {
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
                 int rgb = outputImage.getRGB(x, y);
                 Color color = Color.rgb(
-                        (rgb >> 16) & 0xFF,
-                        (rgb >> 8) & 0xFF,
-                        rgb & 0xFF
+                    (rgb >> 16) & 0xFF,
+                    (rgb >> 8) & 0xFF,
+                    rgb & 0xFF
                 );
                 writer.setColor(x, y, color);
             }
@@ -80,31 +103,81 @@ public class SteganographyUtil {
         BufferedImage image = ImageIO.read(imageFile);
         if (image == null) return null;
 
-        StringBuilder binary = new StringBuilder();
-        
-        outerLoop:
-        for (int y = 0; y < image.getHeight(); y++) {
-            for (int x = 0; x < image.getWidth(); x++) {
+        StringBuilder bits = new StringBuilder();
+        StringBuilder message = new StringBuilder();
+        int width = image.getWidth();
+        int height = image.getHeight();
+        //int pixelCount = width * height;
+
+        // Step 1: Extract first 8 bits from blue channel only (marker)
+        int markerBitCount = 8;
+        int pixelIndex = 0;
+
+        for (int y = 0; y < height && markerBitCount > 0; y++) {
+            for (int x = 0; x < width && markerBitCount > 0; x++) {
                 int rgb = image.getRGB(x, y);
                 int b = rgb & 0xFF;
-                binary.append(b & 1);
-
-                if (binary.length() % 8 == 0) {
-                    String byteStr = binary.substring(binary.length() - 8);
-                    if (Integer.parseInt(byteStr, 2) == 0x00) break outerLoop;
-                }
+                bits.append(b & 1);
+                pixelIndex++;
+                markerBitCount--;
             }
         }
 
-        StringBuilder message = new StringBuilder();
-        for (int i = 0; i < binary.length(); i += 8) {
-            String byteStr = binary.substring(i, Math.min(i + 8, binary.length()));
-            int charCode = Integer.parseInt(byteStr, 2);
-            if (charCode == 0x00) break;
-            message.append((char) charCode);
+        // Decode first byte (should be 'S')
+        if (bits.length() < 8) return null;
+        int marker = Integer.parseInt(bits.substring(0, 8), 2);
+        if (marker != 0x53) {
+            System.out.println("Decoded message does not start with marker 'S'");
+            return null;
         }
 
-        return message.toString(); // should be: S<hash>|<secret>
+        message.append((char) marker);
+        bits.setLength(0); // clear bits
+
+        // Step 2: Continue extracting from remaining pixels using R, G, B pattern
+        int x = pixelIndex % width;
+        int y = pixelIndex / width;
+
+        outer:
+        for (; y < height; y++) {
+            for (; x < width; x++) {
+                int rgb = image.getRGB(x, y);
+                int r = (rgb >> 16) & 0xFF;
+                int g = (rgb >> 8) & 0xFF;
+                int b = rgb & 0xFF;
+
+                bits.append(r & 1);
+                if (bits.length() >= 8) {
+                    String byteStr = bits.substring(0, 8);
+                    bits.delete(0, 8);
+                    int charCode = Integer.parseInt(byteStr, 2);
+                    if (charCode == 0) break outer;
+                    message.append((char) charCode);
+                }
+
+                bits.append(g & 1);
+                if (bits.length() >= 8) {
+                    String byteStr = bits.substring(0, 8);
+                    bits.delete(0, 8);
+                    int charCode = Integer.parseInt(byteStr, 2);
+                    if (charCode == 0) break outer;
+                    message.append((char) charCode);
+                }
+
+                bits.append(b & 1);
+                if (bits.length() >= 8) {
+                    String byteStr = bits.substring(0, 8);
+                    bits.delete(0, 8);
+                    int charCode = Integer.parseInt(byteStr, 2);
+                    if (charCode == 0) break outer;
+                    message.append((char) charCode);
+                }
+            }
+            x = 0; // reset x after first row
+        }
+
+        String decoded = message.toString();
+        return decoded;
     }
 
     public static boolean confirmReturnToStart() {
