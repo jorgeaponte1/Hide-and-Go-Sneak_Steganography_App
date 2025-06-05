@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -20,6 +21,8 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("PaneMain"), 1280, 800);
+
+        stage.getIcons().add(new Image(App.class.getResourceAsStream("/com/steganography/hide_and_sneak_logo.png")));
         stage.setTitle("Hide-and-Go-Sneak");
         stage.setScene(scene);
         stage.centerOnScreen();
