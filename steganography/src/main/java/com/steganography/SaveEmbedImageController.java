@@ -17,13 +17,14 @@ import javafx.scene.input.MouseButton;
 import javafx.stage.FileChooser;
 
 public class SaveEmbedImageController {
-    private static Image finalEmbeddedImage;
 
     @FXML
     private Button returnToStartButton;
 
     @FXML
     private ImageView resultImageView;
+
+    private static Image finalEmbeddedImage;
 
     @FXML
     private void initialize() {
@@ -89,7 +90,7 @@ public class SaveEmbedImageController {
         }
     }
 
-    public static void setFinalImage(Image image) {
+    static void setFinalImage(Image image) {
         finalEmbeddedImage = image;
     }
 }
