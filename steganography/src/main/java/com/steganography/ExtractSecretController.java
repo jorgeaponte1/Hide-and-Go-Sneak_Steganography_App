@@ -32,17 +32,15 @@ public class ExtractSecretController {
     private Button nextButton;
 
     @FXML
-    private Label errorLabel;
+    private Button returnToStartButton;
 
     @FXML
-    private Button returnToStartButton;
+    private Label errorLabel;
 
     @FXML
     private ComboBox<String> hashAlgorithmComboBox;
 
     private static String hashedPassword = "";
-
-    private String algorithm = "";
 
     @FXML
     private void initialize() {
@@ -191,7 +189,7 @@ public class ExtractSecretController {
         return hashAlgorithmComboBox.getValue().split(" ")[0];
     }
 
-    public static String getHashedPassword() {
+    static String getHashedPassword() {
         return hashedPassword;
     }
 }

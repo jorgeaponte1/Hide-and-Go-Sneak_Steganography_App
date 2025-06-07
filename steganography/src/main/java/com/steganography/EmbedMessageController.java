@@ -16,15 +16,15 @@ public class EmbedMessageController {
     private Button saveButton;
 
     @FXML
+    private Button returnToStartButton;
+
+    @FXML
     private TextArea messageTextArea;
 
     @FXML
     private Label messageErrorLabel;
 
-    @FXML
-    private Button returnToStartButton;
-
-    public static String secretMessage = "";
+    static String secretMessage = "";
 
     @FXML
     private void onSaveClicked() {
@@ -65,7 +65,7 @@ public class EmbedMessageController {
         }
     }
 
-    public static String getSecretMessage() {
+    static String getSecretMessage() {
         return secretMessage;
     }
 }

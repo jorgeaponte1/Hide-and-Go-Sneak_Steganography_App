@@ -27,26 +27,25 @@ public class EmbedSecretController {
     private CheckBox showPasswordCheckBox;
 
     @FXML
-    private Label passwordMatchLabel;
-
-    @FXML
     private Button saveButton;
 
     @FXML
     private Button nextButton;
 
     @FXML
+    private Button returnToStartButton;
+
+    @FXML
     private Label errorLabel;
 
     @FXML
-    private Button returnToStartButton;
+    private Label passwordMatchLabel;
 
     @FXML
     private ComboBox<String> hashAlgorithmComboBox;
 
     private String hashedPassword = "";
 
-    private String algorithm = "";
 
     @FXML
     private void initialize() {

@@ -23,10 +23,6 @@ public class ExtractMessageController {
 
     private static String extractedMessage = "";
 
-    public static void setExtractedMessage(String message) {
-        extractedMessage = message;
-    }
-
     @FXML
     private void initialize() {
         if (errorLabel != null) {
@@ -60,5 +56,9 @@ public class ExtractMessageController {
             errorLabel.setVisible(false);
             errorLabel.setText("");
         }
+    }
+
+    static void setExtractedMessage(String message) {
+        extractedMessage = message;
     }
 }

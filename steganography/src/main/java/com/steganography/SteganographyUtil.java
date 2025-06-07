@@ -15,7 +15,7 @@ import javafx.scene.paint.Color;
 
 public class SteganographyUtil {
 
-    public static Image embedMessage(File inputImageFile, String hashedPassword, String secretMessage) throws IOException {
+    static Image embedMessage(File inputImageFile, String hashedPassword, String secretMessage) throws IOException {
         BufferedImage inputImage = ImageIO.read(inputImageFile);
         int width = inputImage.getWidth();
         int height = inputImage.getHeight();
@@ -99,7 +99,7 @@ public class SteganographyUtil {
         return fxImage;
     }
 
-    public static String extractMessage(File imageFile) throws IOException {
+    static String extractMessage(File imageFile) throws IOException {
         BufferedImage image = ImageIO.read(imageFile);
         if (image == null) return null;
 
@@ -180,7 +180,7 @@ public class SteganographyUtil {
         return decoded;
     }
 
-    public static boolean confirmReturnToStart() {
+    static boolean confirmReturnToStart() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm Navigation");
         alert.setHeaderText("Return to Start");

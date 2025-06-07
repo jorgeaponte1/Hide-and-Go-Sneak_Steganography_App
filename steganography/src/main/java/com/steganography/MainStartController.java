@@ -14,6 +14,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 
 public class MainStartController {
+
     @FXML 
     private ImageView extractImageView;
     
@@ -203,7 +204,7 @@ public class MainStartController {
         return fileChooser.showOpenDialog(null);
     }
 
-    public static void reset() {
+    static void reset() {
         selectedEmbedImageFile = null;
         selectedExtractImageFile = null;
     }
@@ -239,11 +240,11 @@ public class MainStartController {
         }
     }
 
-    public static File getSelectedEmbedImageFile() {
+    static File getSelectedEmbedImageFile() {
         return selectedEmbedImageFile;
     }
 
-    public static File getSelectedExtractImageFile() {
+    static File getSelectedExtractImageFile() {
         return selectedExtractImageFile;
     }
 }
