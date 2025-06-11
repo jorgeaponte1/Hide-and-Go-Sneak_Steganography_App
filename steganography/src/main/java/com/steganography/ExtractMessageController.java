@@ -3,14 +3,14 @@ package com.steganography;
 import java.io.IOException;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
 public class ExtractMessageController {
-
-    @FXML
-    private Label messageLabel;
 
     @FXML
     private Label errorLabel;
@@ -21,10 +21,14 @@ public class ExtractMessageController {
     @FXML
     private Text messageText;
 
+    @FXML
+    private AnchorPane rootPane;
+
     private static String extractedMessage = "";
 
     @FXML
     private void initialize() {
+        loadHeader();
         if (errorLabel != null) {
             errorLabel.setVisible(false);
             errorLabel.setText("");
@@ -36,6 +40,23 @@ public class ExtractMessageController {
         } else {
             hideError();
             messageText.setText(extractedMessage);
+        }
+    }
+
+    private void loadHeader() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/steganography/PaneHeader.fxml"));
+            Node header = loader.load();
+
+            // Anchor to top of rootPane
+            AnchorPane.setTopAnchor(header, 0.0);
+            AnchorPane.setLeftAnchor(header, 0.0);
+            AnchorPane.setRightAnchor(header, 0.0);
+
+            rootPane.getChildren().add(header);
+        } catch (IOException e) {
+            System.err.println("Failed to load header: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
