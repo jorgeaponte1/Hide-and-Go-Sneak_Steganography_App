@@ -7,12 +7,15 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 
 public class ExtractSecretController {
 
@@ -40,10 +43,14 @@ public class ExtractSecretController {
     @FXML
     private ComboBox<String> hashAlgorithmComboBox;
 
+    @FXML
+    private AnchorPane rootPane;
+
     private static String hashedPassword = "";
 
     @FXML
     private void initialize() {
+        loadHeader();
         nextButton.setDisable(true);
 
         visiblePasswordField.setManaged(false);
@@ -51,6 +58,8 @@ public class ExtractSecretController {
         passwordField.textProperty().bindBidirectional(visiblePasswordField.textProperty());
 
         showPasswordCheckBox.setOnAction(e -> togglePasswordVisibility());
+
+        hashAlgorithmComboBox.setStyle("-fx-font-size: 18px;");
 
         hashAlgorithmComboBox.getItems().addAll(
             "SHA-256 (Strong - Recommended)",
@@ -65,6 +74,23 @@ public class ExtractSecretController {
         if (errorLabel != null) {
             errorLabel.setVisible(false);
             errorLabel.setText("");
+        }
+    }
+
+    private void loadHeader() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/steganography/PaneHeader.fxml"));
+            Node header = loader.load();
+
+            // Anchor to top of rootPane
+            AnchorPane.setTopAnchor(header, 0.0);
+            AnchorPane.setLeftAnchor(header, 0.0);
+            AnchorPane.setRightAnchor(header, 0.0);
+
+            rootPane.getChildren().add(header);
+        } catch (IOException e) {
+            System.err.println("Failed to load header: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

@@ -3,9 +3,12 @@ package com.steganography;
 import java.io.IOException;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.AnchorPane;
 
 public class EmbedMessageController {
 
@@ -24,14 +27,39 @@ public class EmbedMessageController {
     @FXML
     private Label messageErrorLabel;
 
+    @FXML
+    private AnchorPane rootPane;
+
     static String secretMessage = "";
+
+    @FXML
+    private void initialize(){
+        loadHeader();
+    }
+
+    private void loadHeader() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/steganography/PaneHeader.fxml"));
+            Node header = loader.load();
+
+            // Anchor to top of rootPane
+            AnchorPane.setTopAnchor(header, 0.0);
+            AnchorPane.setLeftAnchor(header, 0.0);
+            AnchorPane.setRightAnchor(header, 0.0);
+
+            rootPane.getChildren().add(header);
+        } catch (IOException e) {
+            System.err.println("Failed to load header: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     private void onSaveClicked() {
         secretMessage = messageTextArea.getText().trim();
 
         if (secretMessage.isEmpty()) {
-            messageErrorLabel.setText("Message is empty. Please write a message before saving.");
+            messageErrorLabel.setText("Message is empty.");
             messageErrorLabel.setVisible(true);
         } else {
             messageErrorLabel.setVisible(false);
@@ -42,7 +70,7 @@ public class EmbedMessageController {
     @FXML
     private void onNextClicked() throws IOException {
         if (secretMessage.isEmpty()) {
-            messageErrorLabel.setText("No message saved. Please save a message before proceeding.");
+            messageErrorLabel.setText("No message saved.");
             messageErrorLabel.setVisible(true);
         } else {
             messageErrorLabel.setVisible(false);

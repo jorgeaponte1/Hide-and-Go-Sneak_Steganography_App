@@ -13,17 +13,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21.0.7" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.steganography.SaveEmbedImageController">
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21.0.7" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.steganography.SaveEmbedImageController">
    <children>
       <TitledPane alignment="TOP_CENTER" animated="false" collapsible="false" prefHeight="801.0" prefWidth="1281.0" text="Hide-and-Go-Sneak">
-         <font>
-            <Font name="System Bold" size="36.0" />
-         </font>
          <effect>
             <Blend mode="LIGHTEN" />
          </effect>
          <content>
-            <GridPane prefHeight="727.0" prefWidth="1280.0">
+            <GridPane prefHeight="727.0" prefWidth="1279.0" styleClass="grid-pane">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="1280.0" minWidth="10.0" prefWidth="1280.0" />
               </columnConstraints>
@@ -33,10 +30,7 @@
                 <RowConstraints maxHeight="202.0" minHeight="10.0" prefHeight="152.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Step 4: Results!&#10;Below is your image with your hidden message." textAlignment="CENTER" wrappingWidth="763.1152191162109">
-                     <font>
-                        <Font size="36.0" />
-                     </font>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Step 4: Results!&#10;Below is your image with your hidden message." textAlignment="CENTER" wrappingWidth="763.1152191162109" styleClass="text">
                      <GridPane.margin>
                         <Insets left="225.0" />
                      </GridPane.margin>
@@ -46,24 +40,18 @@
                         <Cursor fx:constant="DEFAULT" />
                      </cursor>
                      <GridPane.margin>
-                        <Insets left="375.0" />
+                        <Insets left="465.0" />
                      </GridPane.margin>
                   </ImageView>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Right click and select 'Save Image As...' to save a copy of this image with your message." textAlignment="CENTER" wrappingWidth="705.1152191162109" GridPane.rowIndex="2">
-                     <font>
-                        <Font size="36.0" />
-                     </font>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Right click and select 'Save Image As...' to save a copy of this image with your message." textAlignment="CENTER" wrappingWidth="705.1152191162109" GridPane.rowIndex="2" styleClass="text">
                      <GridPane.margin>
                         <Insets left="257.0" />
                      </GridPane.margin>
                   </Text>
-                  <Button fx:id="returnToStartButton" mnemonicParsing="false" prefHeight="72.0" prefWidth="192.0" text="Return to Start" onAction="#onReturnToStartClicked" GridPane.rowIndex="2">
+                  <Button fx:id="returnToStartButton" mnemonicParsing="false" prefHeight="72.0" prefWidth="192.0" text="Restart" onAction="#onReturnToStartClicked" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets left="1000.0" />
                      </GridPane.margin>
-                     <font>
-                        <Font size="24.0" />
-                     </font>
                   </Button>
                </children>
             </GridPane>

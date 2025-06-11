@@ -4,12 +4,15 @@ import java.io.File;
 import java.io.IOException;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 
@@ -57,12 +60,17 @@ public class MainStartController {
     @FXML
     private StackPane extractImageStack;
 
+    @FXML
+    private AnchorPane rootPane;
+
     private static File selectedEmbedImageFile;
     
     private static File selectedExtractImageFile;
 
     @FXML
     private void initialize() {
+        loadHeader();
+
         extractNextButton.setDisable(true);
         reset();
 
@@ -71,6 +79,23 @@ public class MainStartController {
 
         embedOverlayLabel.setVisible(true);
         extractOverlayLabel.setVisible(true);
+    }
+
+    private void loadHeader() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/steganography/PaneHeader.fxml"));
+            Node header = loader.load();
+
+            // Anchor to top of rootPane
+            AnchorPane.setTopAnchor(header, 0.0);
+            AnchorPane.setLeftAnchor(header, 0.0);
+            AnchorPane.setRightAnchor(header, 0.0);
+
+            rootPane.getChildren().add(header);
+        } catch (IOException e) {
+            System.err.println("Failed to load header: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     private void setupDragAndDrop(StackPane stackPane, ImageView imageView, TextField pathField, Label overlayLabel, boolean isEmbed) {
