@@ -9,7 +9,7 @@ A JavaFX-based desktop application that lets you **hide and extract secret messa
 * Embed text messages into PNG images using password-based encryption.
 * Secure password protection using various **hashing algorithms**
 * Extract hidden messages with correct password match.
-* User-friendly JavaFX GUI interface.
+* User-friendly JavaFX GUI interface with Light/Dark Mode Capabilities.
 * Drag-and-drop image support.
 * Fully portable: builds a runnable `.jar` with no external dependencies
 
@@ -20,11 +20,15 @@ A JavaFX-based desktop application that lets you **hide and extract secret messa
 To run this application, ensure you have the following installed:
 
 * **Java 21+ JDK**
-* **Maven 3.6+**
+* **Maven 3.6+ (Build)**
 
 ---
 
 ## 🚀 Getting Started
+
+### 0. Download the .jar Release V1.1 
+
+---
 
 ### 1. 📂 Clone this Repository
 
@@ -140,4 +144,4 @@ This project is licensed under the MIT License.
 ## Credits
 
 * Developed by Jorge and Jessica Aponte.
-* Icons and UI components: \[credits if any].
+* Icons and UI components: Icons8

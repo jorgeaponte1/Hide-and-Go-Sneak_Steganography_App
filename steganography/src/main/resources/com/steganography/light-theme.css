@@ -50,7 +50,7 @@
   -fx-padding: 8px;
 }
 
-.text-area, .scroll-pane{
+.text-area {
   -fx-font-size: 18px;
   -fx-background-color: #559fd6;
   -fx-border-color: #84c3dd;
