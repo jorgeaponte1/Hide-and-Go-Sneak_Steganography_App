@@ -28,7 +28,7 @@
                 <RowConstraints maxHeight="127.0" minHeight="10.0" prefHeight="127.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <ScrollPane fitToWidth="true" prefHeight="409.0" prefWidth="1132.0" GridPane.rowIndex="1" vbarPolicy="ALWAYS" styleClass="scroll-pane">
+                  <ScrollPane fitToWidth="true" prefHeight="409.0" prefWidth="1132.0" GridPane.rowIndex="1" vbarPolicy="ALWAYS" styleClass="text-area">
                      <content>
                         <VBox prefWidth="1100.0" alignment="TOP_CENTER" spacing="10.0" xmlns:fx="http://javafx.com/fxml/1">
                            <Text fx:id="messageText" wrappingWidth="1050.0" textAlignment="CENTER" styleClass="text-scroll-pane"/>
